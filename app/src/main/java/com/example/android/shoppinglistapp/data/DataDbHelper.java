@@ -18,6 +18,8 @@ public class DataDbHelper extends SQLiteOpenHelper {
             "(" +
             DataContract.ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             DataContract.ProductEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL," +
+            DataContract.ProductEntry.COLUMN_SUPPLIERNAME + " TEXT NOT NULL," +
+            DataContract.ProductEntry.COLUMN_SUPPLIERPHONENUMBER + " TEXT NOT NULL," +
             DataContract.ProductEntry.COLUMN_PRODUCT_PRICE + " STRING NOT NULL," +
             DataContract.ProductEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER DEFAULT 0," +
             DataContract.ProductEntry.COLUMN_PRODUCT_IMAGE + " TEXT" + ");";

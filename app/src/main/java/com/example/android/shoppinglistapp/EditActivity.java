@@ -33,6 +33,8 @@ import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
+import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_SUPPLIERNAME;
+import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_SUPPLIERPHONENUMBER;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.CONTENT_URI;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry._ID;
 
@@ -46,6 +48,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     Uri imageUri;
     private boolean productHasChanged = false;
     private EditText mProductName;
+    private EditText mSupplierName;
+    private EditText mSupplierPhoneNumber;
     private EditText mProductPrice;
     private EditText mProductQuantity;
     private Button mDecreaseButton;
@@ -77,6 +81,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductImage = (ImageView) findViewById(R.id.product_image);
         mProductName = (EditText) findViewById(R.id.edit_product_name);
         mProductPrice = (EditText) findViewById(R.id.edit_price);
+        mSupplierName = (EditText) findViewById(R.id.edit_suppliername);
+        mSupplierPhoneNumber = (EditText) findViewById(R.id.edit_supplierphonenumber);
         mProductQuantity = (EditText) findViewById(R.id.product_quantity);
         mDecreaseButton = (Button) findViewById(R.id.decrement);
         mIncreaseButton = (Button) findViewById(R.id.increment);
@@ -84,6 +90,10 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mOrderButton = (Button) findViewById(R.id.order_button);
         mSaveButton = (Button) findViewById(R.id.save_button_and_store);
         mProductName.setOnTouchListener(mTouchListener);
+
+        mSupplierName.setOnTouchListener(mTouchListener);
+        mSupplierPhoneNumber.setOnTouchListener(mTouchListener);
+
         mProductPrice.setOnTouchListener(mTouchListener);
         mProductQuantity.setOnTouchListener(mTouchListener);
         mDecreaseButton.setOnTouchListener(mTouchListener);
@@ -133,9 +143,14 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 String productNameMail = mProductName.getText().toString().trim();
                 String productQuantitytMail = mProductQuantity.getText().toString().trim();
                 String productPriceMail = mProductPrice.getText().toString().trim();
+                String supplierNameMail = mSupplierName.getText().toString().trim();
+                String supplierPhoneNumberMail = mSupplierPhoneNumber.getText().toString().trim();
+
                 String message = getString(R.string.email_message) +
                         "\nProductName: " + productNameMail +
                         "\nQuantityt: " + productQuantitytMail +
+                        "\nSupplier Name: " + supplierNameMail +
+                        "\nSupplier Phone Number: " + supplierPhoneNumberMail +
                         "\nPrice per item (EUR): " + productPriceMail +
                         "\nThank you." +
                         "Best regards,";
@@ -224,6 +239,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
     private boolean saveProduct() {
         String name = mProductName.getText().toString().trim();
         String price = mProductPrice.getText().toString().trim();
+        String supplierName = mSupplierName.getText().toString().trim();
+        String supplierPhoneNumber = mSupplierPhoneNumber.getText().toString().trim();
+
         quantityString = mProductQuantity.getText().toString().trim();
 
         if (TextUtils.isEmpty(name)) {
@@ -232,6 +250,20 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, name);
+
+        if (TextUtils.isEmpty(supplierName)) {
+            Toast.makeText(this, getString(R.string.toast_require_name), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        values.put(COLUMN_SUPPLIERNAME, supplierName);
+
+        if (TextUtils.isEmpty(supplierPhoneNumber)) {
+            Toast.makeText(this, getString(R.string.toast_require_name), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        values.put(COLUMN_SUPPLIERPHONENUMBER, supplierPhoneNumber);
 
         int quantity = !TextUtils.isEmpty(quantityString) ? Integer.parseInt(quantityString) : 0;
         values.put(COLUMN_PRODUCT_QUANTITY, quantity);
@@ -332,7 +364,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 COLUMN_PRODUCT_NAME,
                 COLUMN_PRODUCT_PRICE,
                 COLUMN_PRODUCT_QUANTITY,
-                COLUMN_PRODUCT_IMAGE};
+                COLUMN_PRODUCT_IMAGE,
+                COLUMN_SUPPLIERNAME,
+                COLUMN_SUPPLIERPHONENUMBER};
         return new CursorLoader(this, currentItemUri,
                 projection, null, null, null);
     }
@@ -347,14 +381,20 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             int priceColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
             int pictureColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_IMAGE);
+            int supplierNameColumnIndex = cursor.getColumnIndex(COLUMN_SUPPLIERNAME);
+            int supplierPhoneNumberColumnIndex = cursor.getColumnIndex(COLUMN_SUPPLIERPHONENUMBER);
             String name = cursor.getString(nameColumnIndex);
             String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
             String picture = cursor.getString(pictureColumnIndex);
+            String supplierName = cursor.getString(supplierNameColumnIndex);
+            String supplierPhoneNumber = cursor.getString(supplierPhoneNumberColumnIndex);
             mProductName.setText(name);
             mProductPrice.setText(price);
             mProductQuantity.setText(Integer.toString(quantity));
             mProductImage.setImageURI(Uri.parse(picture));
+            mSupplierName.setText(supplierName);
+            mSupplierPhoneNumber.setText(supplierPhoneNumber);
             imageUri = Uri.parse(picture);
         }
     }
@@ -364,6 +404,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         mProductName.setText("");
         mProductPrice.setText("");
         mProductQuantity.setText("");
+        mSupplierName.setText("");
+        mSupplierPhoneNumber.setText("");
     }
 
 

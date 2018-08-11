@@ -19,6 +19,8 @@ import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
+import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_SUPPLIERNAME;
+import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.COLUMN_SUPPLIERPHONENUMBER;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry.TABLE_NAME;
 import static com.example.android.shoppinglistapp.data.DataContract.ProductEntry._ID;
 
@@ -104,6 +106,16 @@ public class DataProvider extends ContentProvider {
             throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
         }
 
+        String suppliername = values.getAsString(COLUMN_SUPPLIERNAME);
+        if (suppliername == null) {
+            throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
+        }
+
+        String supplierphonenumber = values.getAsString(COLUMN_SUPPLIERPHONENUMBER);
+        if (supplierphonenumber == null) {
+            throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
+        }
+
         Integer quantity = values.getAsInteger(COLUMN_PRODUCT_QUANTITY);
         if (quantity == null || quantity < 0) {
             throw new IllegalArgumentException(String.valueOf(R.string.product_requires_valid_quantity));
@@ -173,6 +185,21 @@ public class DataProvider extends ContentProvider {
                 throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
             }
         }
+
+        if (values.containsKey(COLUMN_SUPPLIERNAME)) {
+            String name = values.getAsString(COLUMN_SUPPLIERNAME);
+            if (name == null) {
+                throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
+            }
+        }
+
+        if (values.containsKey(COLUMN_SUPPLIERPHONENUMBER)) {
+            String name = values.getAsString(COLUMN_SUPPLIERPHONENUMBER);
+            if (name == null) {
+                throw new IllegalArgumentException(String.valueOf(R.string.product_requires_a_product_name));
+            }
+        }
+
         Integer quantity = values.getAsInteger(COLUMN_PRODUCT_QUANTITY);
         if (quantity == null || quantity < 0) {
             throw new IllegalArgumentException(String.valueOf(R.string.product_requires_valid_quantity));

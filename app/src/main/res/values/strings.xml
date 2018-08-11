@@ -10,6 +10,8 @@
     <string name="category_measurement">Measurement</string>
     <string name="hint_product_name">Product</string>
     <string name="hint_product_price">Product price in EUR</string>
+    <string name="hint_suppliername">Product supplier name</string>
+    <string name="hint_supplierphonenumber">Product supplier phone number</string>
     <string name="hint_product_category">Category</string>
     <string name="editor_insert_product_successful">Product saved</string>
     <string name="editor_insert_product_failed">Error with saving product</string>

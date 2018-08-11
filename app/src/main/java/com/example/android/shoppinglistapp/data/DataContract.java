@@ -37,5 +37,7 @@ public class DataContract {
         public static final String COLUMN_PRODUCT_QUANTITY = "quantity";
         public static final String COLUMN_PRODUCT_IMAGE = "image";
         public static final String COLUMN_PRODUCT_PRICE = "price";
+        public static final String COLUMN_SUPPLIERNAME = "suppliername";
+        public static final String COLUMN_SUPPLIERPHONENUMBER = "supplierphonenumber";
     }
 }
